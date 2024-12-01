@@ -212,12 +212,12 @@ def get_results(text):
     # Return Top 5 Links
     return ranked_results[:5]
     
-if __name__ == "__main__":
-    file_path = "Assignment 1.docx"
-    ranked_results = process_assignment(file_path)
-    print("Top 5 Links:")
-    for idx, result in enumerate(ranked_results, start=1):
-        print(f"{idx}. Title: {result['title']}")
-        print(f"   Snippet: {result['snippet']}")
-        print(f"   URL: {result['url']}")
-        print()
+# if __name__ == "__main__":
+#     file_path = "Assignment 1.docx"
+#     ranked_results = process_assignment(file_path)
+#     print("Top 5 Links:")
+#     for idx, result in enumerate(ranked_results, start=1):
+#         print(f"{idx}. Title: {result['title']}")
+#         print(f"   Snippet: {result['snippet']}")
+#         print(f"   URL: {result['url']}")
+#         print()
