@@ -124,6 +124,7 @@ def cosine_similarity_ranking(assignment_embedding, search_results):
         ranked_results.append({
             'title': result.get('name', ''),
             'url': result.get('url', ''),
+            'snippet': snippet,
             'similarity': similarity  # Ensure it's a float
         })
     ranked_results = sorted(ranked_results, key=lambda x: x['similarity'], reverse=True)
