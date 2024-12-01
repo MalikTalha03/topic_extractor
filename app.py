@@ -7,6 +7,10 @@ from main import process_assignment, get_results
 
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to Topic Extractor API!"}
+
 # File-based endpoint
 @app.post("/process-file/")
 async def process_file(file: UploadFile = File(...)):
