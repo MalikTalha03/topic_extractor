@@ -10,18 +10,32 @@ import pytesseract
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 import os
 import openai
-import csv
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
+from dotenv import load_dotenv
 
+load_dotenv()
+API_KEY_SEARCH = os.getenv("API_KEY_SEARCH")
+BING_API_KEY = os.getenv("BING_API_KEY")
 
-API_KEY_SEARCH = os.environ.get("API_KEY_SEARCH")
-BING_API_KEY = os.environ.get("BING_API_KEY")
-
-SEACRH_ID = os.environ.get("SEACRH_ID")
-
+SEACRH_ID = os.getenv("SEACRH_ID")
 
 app = FastAPI()
+
+def download_pdf(url, save_path):
+    try:
+        # Send a GET request to the URL
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an HTTPError for bad responses
+
+        # Save the PDF file locally
+        with open(save_path, 'wb') as file:
+            file.write(response.content)
+        print(f"PDF downloaded successfully: {save_path}")
+    except Exception as e:
+        print(f"Error downloading PDF: {e}")
+        return None
+    return save_path
 
 
 def extract_text_from_pdf(pdf_path):
@@ -195,18 +209,6 @@ def get_results(text):
     search_results = fetch_bing_search_results(query)
     headers = ["Title", "Snippet", "URL"]
 
-    # Open the file and write the results
-    with open("search_results1.csv", mode="w", newline="", encoding="utf-8") as file:
-        writer = csv.writer(file)
-        writer.writerow(headers)  # Write the header row
-
-        for result in search_results:
-            writer.writerow([
-                result.get("name", ""),
-                result.get("snippet", ""),
-                result.get("url", "")
-            ])
-    
     # # Step 5: Rank Results
     ranked_results = cosine_similarity_ranking(assignment_embedding, search_results)
     
@@ -214,7 +216,7 @@ def get_results(text):
     return ranked_results[:5]
     
 # if __name__ == "__main__":
-#     file_path = "Assignment 1.docx"
+#     file_path = "temp_SPM 3 Temp(1).docx"
 #     ranked_results = process_assignment(file_path)
 #     print("Top 5 Links:")
 #     for idx, result in enumerate(ranked_results, start=1):
