@@ -3,11 +3,9 @@ from transformers import BertTokenizer, BertModel
 from sklearn.metrics.pairwise import cosine_similarity
 import requests
 from pdfminer.high_level import extract_text as pdfminer_extract_text
-from transformers import T5Tokenizer, T5ForConditionalGeneration
 import os
 import openai
-from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI
 from dotenv import load_dotenv
 
 load_dotenv()
