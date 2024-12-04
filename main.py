@@ -2,8 +2,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
 import uvicorn
 import os
-import openai
-from app import process_assignment, get_results, download_pdf
+from app import process_assignment, download_pdf
 
 app = FastAPI()
 
@@ -34,7 +33,6 @@ async def process_text(input: TextInput):
 
 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
 
 
